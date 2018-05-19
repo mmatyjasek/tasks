@@ -10,6 +10,8 @@ import java.util.List;
 
 @Service
 public class DbService {
+
+    private static final Long ID = 1L;
     @Autowired
     private TaskRepository repository;
 
@@ -17,5 +19,5 @@ public class DbService {
         return repository.findAll();
     }
 
-    public Task getTask() {return repository.findById(2L).orElseThrow(() -> new NotFoundEntityException("Could not found: " + 2));}
+    public Task getTask() {return repository.findById(ID).orElseThrow(() -> new NotFoundEntityException("Could not found: " + ID));}
 }
