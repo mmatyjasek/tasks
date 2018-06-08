@@ -16,6 +16,11 @@ import java.util.Optional;
 @Component
 public class TrelloClient {
 
+    private static final String KEY = "key";
+    private static final String TOKEN = "token";
+    private static final String FIELDS = "fields";
+    private static final String FIELDS_VALUE = "name,id";
+
     @Value("${trello.api.endpoint.prod}")
     private String trelloApiEndpoint;
 
@@ -31,16 +36,16 @@ public class TrelloClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    private URI createUrl() {
-        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
-                .queryParam("key", trelloAppKey).queryParam("token", trelloToken)
-                .queryParam("fields", "name,id").build().encode().toUri();
-    }
-
     public List<TrelloBoardDto> getTrelloBoards() {
 
         TrelloBoardDto [] boardsResponse = restTemplate.getForObject(createUrl(), TrelloBoardDto[].class);
 
         return Optional.ofNullable(boardsResponse).map(Arrays::asList).orElseGet(ArrayList::new);
+    }
+
+    private URI createUrl() {
+        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
+                .queryParam(KEY, trelloAppKey).queryParam(TOKEN, trelloToken)
+                .queryParam(FIELDS, FIELDS_VALUE).build().encode().toUri();
     }
 }

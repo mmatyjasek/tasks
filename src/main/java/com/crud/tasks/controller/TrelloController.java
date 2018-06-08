@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/v1/trello")
 public class TrelloController {
 
+    private static final String NAME = "Kodilla";
+
     @Autowired
     private TrelloClient trelloClient;
 
@@ -22,7 +24,9 @@ public class TrelloController {
 
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
-        trelloBoards.stream().filter(b-> b.getId() != null && b.getName() != null && b.getName().contains("Kodilla"))
+        trelloBoards.stream().filter(b-> b.getId() != null)
+                .filter(b -> b.getName() != null)
+                .filter(b -> b.getName().contains(NAME))
                 .collect(Collectors.toList())
                 .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName()));
 
