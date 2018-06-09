@@ -23,21 +23,12 @@ public class TrelloController {
     private TrelloClient trelloClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
-    public void getTrelloBoards() {
+    public List<TrelloBoardDto> getTrelloBoards() {
 
-        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
-
-        trelloBoards.stream().filter(b-> b.getId() != null)
+        return trelloClient.getTrelloBoards().stream().filter(b-> b.getId() != null)
                 .filter(b -> b.getName() != null)
                 .filter(b -> b.getName().contains(NAME))
-                .collect(Collectors.toList())
-                .forEach(trelloBoardDto -> {
-                    System.out.println("Board: id = "  + trelloBoardDto.getId() + ", name = " + trelloBoardDto.getName());
-                    System.out.println("This board contains following lists:");
-                    trelloBoardDto.getLists().forEach(trelloList ->
-                            System.out.println("List: name = " + trelloList.getName() + ", id = " + trelloList.getId() + ", closed = " + trelloList.isClosed()));
-                    System.out.println("\n");
-                });
+                .collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")
