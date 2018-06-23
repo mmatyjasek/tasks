@@ -3,36 +3,27 @@ package com.crud.tasks.controller;
 import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
-import com.crud.tasks.trello.client.TrelloClient;
+import com.crud.tasks.service.TrelloService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/trello")
 public class TrelloController {
 
-    private static final String NAME = "Kodilla";
-
     @Autowired
-    private TrelloClient trelloClient;
+    private TrelloService trelloService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
+    @RequestMapping(method = RequestMethod.GET, value = "/getTrelloBoards")
     public List<TrelloBoardDto> getTrelloBoards() {
-
-        return trelloClient.getTrelloBoards().stream().filter(b-> b.getId() != null)
-                .filter(b -> b.getName() != null)
-                .filter(b -> b.getName().contains(NAME))
-                .collect(Collectors.toList());
+        return trelloService.fetchTrelloBoards();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")
-    public CreatedTrelloCard createdTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
-        return trelloClient.createNewCard(trelloCardDto);
+    @RequestMapping(method = RequestMethod.POST, value = "/createTrelloCard")
+    public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
+        return trelloService.createTrelloCard(trelloCardDto);
     }
 }
