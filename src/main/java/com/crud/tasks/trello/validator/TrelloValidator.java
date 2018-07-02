@@ -13,18 +13,20 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class TrelloValidator {
 
-    public void validateCard(final TrelloCard trelloCard){
+    public boolean validateCard(final TrelloCard trelloCard){
         if(trelloCard.getName().toLowerCase().contains("test")) {
             log.info("Someone is testing my application!");
+            return false;
         } else {
             log.info("Seems that my application is used in a proper way.");
+            return true;
         }
     }
 
     public List<TrelloBoard> validateTrelloBoards(final List<TrelloBoard> trelloBoards) {
         log.info("Start filtering boards...");
         List<TrelloBoard> filtredTrelloBoards = trelloBoards.stream()
-                .filter(t -> !t.getName().equalsIgnoreCase("test"))
+                .filter(t -> !t.getName().toLowerCase().contains("test"))
                 .collect(toList());
         log.info("Boards have been filtered. Current list size: " + filtredTrelloBoards.size());
         return filtredTrelloBoards;

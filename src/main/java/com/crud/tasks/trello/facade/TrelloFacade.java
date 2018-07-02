@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @Component
 @AllArgsConstructor
 @Slf4j
@@ -23,7 +21,6 @@ public class TrelloFacade {
 
     public List<TrelloBoardDto> fetchTrelloBoards() {
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(trelloService.fetchTrelloBoards());
-
         return trelloMapper.mapToBoardsDto(trelloValidator.validateTrelloBoards(trelloBoards));
     }
 
