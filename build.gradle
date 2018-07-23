@@ -34,9 +34,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-validation')
 	compile('org.springframework.boot:spring-boot-starter-mail')
 	compile('com.google.code.gson:gson')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
 	testCompile('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.boot:spring-boot-starter-actuator')
 
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
