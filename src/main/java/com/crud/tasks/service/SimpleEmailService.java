@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class SimpleEmailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
+    private static final String TRELLO_CARD = "New Trello card";
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -37,7 +38,7 @@ public class SimpleEmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            if(mail.getSubject().contains("New Trello card")) {
+            if(mail.getSubject().contains(TRELLO_CARD)) {
                 messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
             }else {
                 messageHelper.setText(mailCreatorService.buildNumberOfTasksDailyEmail(mail.getMessage()), true);
@@ -45,14 +46,5 @@ public class SimpleEmailService {
         };
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()));
-        if(mail.getToCc()!= null && !mail.getToCc().isEmpty()) {
-            mailMessage.setCc(mail.getToCc());
-        }
-        return mailMessage;
-    }
+
 }
