@@ -23,7 +23,6 @@ public class EmailScheduler {
     AdminConfig adminConfig;
 
     @Scheduled(cron = "0 0 8 * * *")
-    //@Scheduled(fixedDelay = 10000)
     public void sendInformationEmail() {
         long size = taskRepository.count();
         String task = (size != 1) ? "tasks" : "task";

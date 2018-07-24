@@ -2,7 +2,6 @@ package com.crud.tasks.service;
 
 import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.controller.TrelloController;
-import com.crud.tasks.trello.facade.TrelloFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MailCreatorService {
@@ -47,8 +47,7 @@ public class MailCreatorService {
 
     public String buildNumberOfTasksDailyEmail(String message) {
 
-        List<String> trelloBoards = new ArrayList<>();
-        trelloController.getTrelloBoards().stream().forEach(b -> trelloBoards.add(b.getName()));
+        List<String> trelloBoards = trelloController.getTrelloBoards().stream().map(b -> b.getName()).collect(Collectors.toList());
 
         Context context = new Context();
         context.setVariable("message", message);
